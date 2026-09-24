@@ -20,6 +20,7 @@
     --muted-2:#6f857e;
     --accent:#f99c1c;
     --accent-2:#ffb443;
+    --accent-strong:#ff8a1e;
     --accent-ink:#20160a;
     --ok:#4ade80;
     --radius:14px;
@@ -65,7 +66,7 @@
   .brand-mark{
     width:42px;height:42px;flex:none;border-radius:12px;
     display:grid;place-items:center;
-    background:linear-gradient(145deg,var(--accent),#e07d08);
+    background:linear-gradient(145deg,var(--accent-2),var(--accent));
     color:#1b1206;font-family:var(--mono);font-weight:800;font-size:16px;
     box-shadow:0 8px 20px rgba(249,156,28,.28);
   }
@@ -97,10 +98,10 @@
     margin:14px 0 6px;padding:8px 8px 6px;
     background:none;border:0;border-top:1px solid var(--line-soft);
     font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;
-    color:var(--muted);cursor:pointer;text-align:left;
+    color:var(--accent-strong);cursor:pointer;text-align:left;
     transition:color .16s;
   }
-  .nav-head:hover,.nav-head.active{color:var(--accent)}
+  .nav-head:hover,.nav-head.active{color:var(--accent-2)}
   .nav-head .nh-num{
     font-family:var(--mono);font-size:9.5px;color:var(--accent);
     background:rgba(249,156,28,.12);border:1px solid rgba(249,156,28,.28);
@@ -111,13 +112,13 @@
   .nav-item{
     display:flex;gap:9px;align-items:baseline;
     padding:5px 8px 5px 10px;border-radius:8px;
-    font-size:12.6px;color:var(--muted);
+    font-size:12.6px;color:var(--accent-2);
     border-left:2px solid transparent;
     transition:background .15s,color .15s,border-color .15s,padding-left .15s;
   }
-  .nav-item:hover{background:rgba(249,156,28,.09);color:var(--text);border-left-color:var(--accent);padding-left:13px}
-  .nav-item .ni-num{font-family:var(--mono);font-size:10px;color:var(--muted-2);flex:none}
-  .nav-item:hover .ni-num{color:var(--accent)}
+  .nav-item:hover{background:rgba(249,156,28,.15);color:#ffd79a;border-left-color:var(--accent);padding-left:13px}
+  .nav-item .ni-num{font-family:var(--mono);font-size:10px;color:rgba(249,156,28,.6);flex:none}
+  .nav-item:hover .ni-num{color:var(--accent-2)}
   .sidebar-foot{
     padding:12px 18px;border-top:1px solid var(--line-soft);
     font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2);
@@ -232,7 +233,7 @@
   }
   .code::-webkit-scrollbar{height:8px}
   .code::-webkit-scrollbar-thumb{background:#22332e;border-radius:8px}
-  .c-kw{color:#f9a03f}
+  .c-kw{color:var(--accent)}
   .c-str{color:#8ee6a8}
   .c-num{color:#6fd3c7}
   .c-com{color:#5f7a72;font-style:italic}
