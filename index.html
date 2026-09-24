@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>hasSy JS Syntax Library — JavaScript Master Cheat Sheet</title>
+<meta name="description" content="Premium JavaScript master syntax cheat sheet and reference dashboard: 101 verified syntax blueprints across 10 categories with instant filtering and copy actions.">
+<style>
+  :root{
+    --bg:#0f1715;
+    --bg-deep:#0b1210;
+    --sidebar:#0d1614;
+    --card:#13221f;
+    --card-2:#162924;
+    --code:#0b1412;
+    --line:rgba(249,156,28,.18);
+    --line-soft:rgba(255,255,255,.07);
+    --text:#eef4f1;
+    --muted:#93a8a1;
+    --muted-2:#6f857e;
+    --accent:#f99c1c;
+    --accent-2:#ffb443;
+    --accent-ink:#20160a;
+    --ok:#4ade80;
+    --radius:14px;
+    --mono:"JetBrains Mono","SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:140px}
+  [hidden]{display:none !important}
+  body{
+    margin:0;
+    background:
+      radial-gradient(900px 520px at 88% -8%, rgba(249,156,28,.10), transparent 60%),
+      radial-gradient(760px 480px at 8% 108%, rgba(16,120,96,.16), transparent 62%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:rgba(249,156,28,.32);color:#fff}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;color:inherit}
+  h1,h2,h3,h4,p{margin:0}
+
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+
+  .skip{position:absolute;left:-9999px;top:0;background:var(--accent);color:var(--accent-ink);padding:10px 16px;z-index:200;border-radius:0 0 10px 0;font-weight:700}
+  .skip:focus{left:0}
+
+  /* ---------------- SIDEBAR ---------------- */
+  .sidebar{
+    position:fixed;inset:0 auto 0 0;width:302px;z-index:60;
+    background:linear-gradient(180deg,#101c19 0%,var(--sidebar) 42%,#0a1311 100%);
+    border-right:1px solid var(--line-soft);
+    display:flex;flex-direction:column;
+    box-shadow:14px 0 40px rgba(0,0,0,.35);
+  }
+  .brand{display:flex;gap:12px;align-items:center;padding:20px 18px 16px;border-bottom:1px solid var(--line-soft)}
+  .brand-mark{
+    width:42px;height:42px;flex:none;border-radius:12px;
+    display:grid;place-items:center;
+    background:linear-gradient(145deg,var(--accent),#e07d08);
+    color:#1b1206;font-family:var(--mono);font-weight:800;font-size:16px;
+    box-shadow:0 8px 20px rgba(249,156,28,.28);
+  }
+  .brand-kicker{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  .brand-title{font-size:18.5px;line-height:1.22;font-weight:750;letter-spacing:-.015em}
+  .brand-title span{
+    background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+
+  .filter-wrap{position:relative;padding:16px 16px 8px}
+  .filter-wrap svg{position:absolute;left:28px;top:50%;transform:translateY(-50%);width:15px;height:15px;stroke:var(--muted-2);pointer-events:none}
+  .filter-input{
+    width:100%;padding:11px 12px 11px 36px;
+    background:var(--bg-deep);border:1px solid var(--line-soft);border-radius:10px;
+    color:var(--text);font-size:13.5px;font-family:inherit;
+    transition:border-color .18s,box-shadow .18s,background .18s;
+  }
+  .filter-input::placeholder{color:var(--muted-2)}
+  .filter-input:focus{outline:none;border-color:rgba(249,156,28,.55);box-shadow:0 0 0 3px rgba(249,156,28,.14);background:#0c1513}
+  .filter-meta{padding:4px 18px 10px;font-size:11px;color:var(--muted-2);letter-spacing:.04em}
+  .filter-meta b{color:var(--accent);font-weight:700}
+
+  .nav{flex:1;overflow-y:auto;padding:2px 12px 18px;scrollbar-width:thin;scrollbar-color:#24352f transparent}
+  .nav::-webkit-scrollbar{width:8px}
+  .nav::-webkit-scrollbar-thumb{background:#22332e;border-radius:8px}
+  .nav-head{
+    display:flex;align-items:center;gap:8px;width:100%;
+    margin:14px 0 6px;padding:8px 8px 6px;
+    background:none;border:0;border-top:1px solid var(--line-soft);
+    font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;
+    color:var(--muted);cursor:pointer;text-align:left;
+    transition:color .16s;
+  }
+  .nav-head:hover,.nav-head.active{color:var(--accent)}
+  .nav-head .nh-num{
+    font-family:var(--mono);font-size:9.5px;color:var(--accent);
+    background:rgba(249,156,28,.12);border:1px solid rgba(249,156,28,.28);
+    padding:1px 5px;border-radius:5px;letter-spacing:.06em;
+  }
+  .nav-head .nh-arrow{margin-left:auto;opacity:.5;font-size:11px}
+  .nav-list{list-style:none;margin:0;padding:0 0 2px}
+  .nav-item{
+    display:flex;gap:9px;align-items:baseline;
+    padding:5px 8px 5px 10px;border-radius:8px;
+    font-size:12.6px;color:var(--muted);
+    border-left:2px solid transparent;
+    transition:background .15s,color .15s,border-color .15s,padding-left .15s;
+  }
+  .nav-item:hover{background:rgba(249,156,28,.09);color:var(--text);border-left-color:var(--accent);padding-left:13px}
+  .nav-item .ni-num{font-family:var(--mono);font-size:10px;color:var(--muted-2);flex:none}
+  .nav-item:hover .ni-num{color:var(--accent)}
+  .sidebar-foot{
+    padding:12px 18px;border-top:1px solid var(--line-soft);
+    font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2);
+    background:rgba(0,0,0,.22);
+  }
+
+  /* ---------------- WORKSPACE ---------------- */
+  .workspace{margin-left:302px;min-height:100vh;display:flex;flex-direction:column}
+  .topbar{
+    position:sticky;top:0;z-index:40;
+    display:flex;align-items:center;gap:16px;
+    padding:14px 30px;
+    background:rgba(15,23,21,.86);backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .icon-btn{
+    display:none;width:38px;height:38px;flex:none;
+    background:var(--card);border:1px solid var(--line-soft);border-radius:10px;
+    cursor:pointer;place-items:center;
+  }
+  .icon-btn svg{width:18px;height:18px;stroke:var(--text)}
+  .eyebrow{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:800}
+  .topbar-title h2{font-size:clamp(24px,2.9vw,36px);font-weight:800;letter-spacing:-.025em;line-height:1.08}
+  .topbar-title h2 em{font-style:normal;background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .topbar-sub{margin-top:5px;font-size:13.5px;color:var(--muted);max-width:92ch}
+  .topbar-stats{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+  .chip{
+    font-family:var(--mono);font-size:11px;padding:5px 10px;border-radius:999px;
+    background:var(--card);border:1px solid var(--line-soft);color:var(--muted);
+  }
+  .chip-accent{background:rgba(249,156,28,.12);border-color:rgba(249,156,28,.34);color:var(--accent-2)}
+
+  .content{padding:30px 30px 10px;flex:1}
+
+  .cat-section{margin-bottom:48px;scroll-margin-top:140px}
+  .sec-head{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+  .sec-num{
+    font-family:var(--mono);font-size:13.5px;font-weight:700;color:var(--accent);
+    background:rgba(249,156,28,.1);border:1px solid rgba(249,156,28,.32);
+    padding:6px 11px;border-radius:9px;flex:none;
+  }
+  .sec-title{font-size:clamp(17px,1.6vw,22px);text-transform:uppercase;font-weight:800;letter-spacing:.09em}
+  .sec-line{flex:1;height:1px;background:linear-gradient(90deg,rgba(249,156,28,.45),rgba(255,255,255,.06) 60%,transparent)}
+  .sec-count{font-family:var(--mono);font-size:12px;color:var(--muted-2)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:18px}
+
+  /* ---------------- CARD ---------------- */
+  .card{
+    position:relative;display:flex;flex-direction:column;gap:12px;
+    background:linear-gradient(168deg,var(--card-2) 0%,var(--card) 58%,#112020 100%);
+    border:1px solid var(--line-soft);
+    border-radius:var(--radius);
+    padding:18px 18px 16px;
+    scroll-margin-top:166px;
+    transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+  }
+  .card::before{
+    content:"";position:absolute;left:16px;right:16px;top:0;height:2px;border-radius:0 0 4px 4px;
+    background:linear-gradient(90deg,transparent,var(--accent),transparent);
+    opacity:0;transition:opacity .2s;
+  }
+  .card:hover{transform:translateY(-4px);border-color:rgba(249,156,28,.34);box-shadow:0 18px 34px rgba(0,0,0,.4)}
+  .card:hover::before{opacity:1}
+  .card-top{display:flex;align-items:center;gap:9px}
+  .badge{
+    font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;
+    color:var(--accent);background:rgba(249,156,28,.1);
+    border:1px solid rgba(249,156,28,.34);
+    padding:3px 8px;border-radius:7px;
+  }
+  .cat-tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2);font-weight:700}
+  .card-title{font-size:17px;font-weight:750;letter-spacing:-.015em;line-height:1.25}
+  .card-def{font-size:13.4px;color:var(--muted);line-height:1.55}
+
+  .card-actions{display:flex;gap:9px;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;gap:7px;
+    padding:7px 13px;border-radius:9px;cursor:pointer;
+    font-size:12.4px;font-weight:700;letter-spacing:.01em;
+    border:1px solid transparent;
+    transition:background .16s,border-color .16s,color .16s,transform .1s;
+  }
+  .btn:active{transform:translateY(1px)}
+  .btn svg{width:13px;height:13px;flex:none}
+  .btn-primary{background:linear-gradient(135deg,var(--accent-2),var(--accent));color:var(--accent-ink);box-shadow:0 6px 14px rgba(249,156,28,.2)}
+  .btn-primary:hover{filter:brightness(1.07)}
+  .btn-primary.is-copied{background:rgba(74,222,128,.16);color:var(--ok);border-color:rgba(74,222,128,.45);box-shadow:none}
+  .btn-ghost{background:rgba(255,255,255,.045);border-color:var(--line-soft);color:var(--muted)}
+  .btn-ghost:hover{color:var(--text);border-color:rgba(249,156,28,.4);background:rgba(249,156,28,.09)}
+
+  .details{
+    background:rgba(0,0,0,.26);border:1px dashed rgba(249,156,28,.3);
+    border-radius:10px;padding:12px 13px;font-size:12.6px;color:var(--muted);
+    animation:fade .22s ease;
+  }
+  .details dl{display:grid;grid-template-columns:auto 1fr;gap:5px 12px;margin:9px 0 0;font-size:11.5px}
+  .details dt{color:var(--muted-2);text-transform:uppercase;letter-spacing:.09em;font-size:10px;font-weight:700;align-self:center}
+  .details dd{margin:0;font-family:var(--mono);color:var(--accent-2);font-size:11.5px}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+  .code{
+    margin:0;background:var(--code);
+    border:1px solid var(--line-soft);border-left:3px solid rgba(249,156,28,.55);
+    border-radius:10px;padding:14px 14px;
+    overflow-x:auto;
+    font-family:var(--mono);font-size:12.4px;line-height:1.66;
+    color:#d6e5df;
+    scrollbar-width:thin;scrollbar-color:#24352f transparent;
+  }
+  .code::-webkit-scrollbar{height:8px}
+  .code::-webkit-scrollbar-thumb{background:#22332e;border-radius:8px}
+  .c-kw{color:#f9a03f}
+  .c-str{color:#8ee6a8}
+  .c-num{color:#6fd3c7}
+  .c-com{color:#5f7a72;font-style:italic}
+  .c-fn{color:#ffd79a}
+
+  .usecase{
+    display:flex;gap:9px;align-items:flex-start;
+    font-size:12.5px;font-style:italic;color:var(--muted);
+    border-top:1px dashed rgba(255,255,255,.09);padding-top:11px;line-height:1.5;
+  }
+  .usecase b{
+    flex:none;font-style:normal;font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;
+    color:var(--accent);background:rgba(249,156,28,.11);border:1px solid rgba(249,156,28,.3);
+    padding:2px 7px;border-radius:6px;margin-top:1px;font-weight:800;
+  }
+
+  .empty{
+    text-align:center;padding:70px 20px;border:1px dashed rgba(249,156,28,.35);
+    border-radius:var(--radius);background:rgba(19,34,31,.5);
+  }
+  .empty .big{font-size:34px;display:block;margin-bottom:8px}
+  .empty h3{font-size:18px;margin-bottom:6px}
+  .empty p{color:var(--muted);font-size:13.5px}
+
+  .foot{
+    margin:26px 30px 0;padding:20px 0 28px;border-top:1px solid var(--line-soft);
+    display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+    font-size:11.5px;color:var(--muted-2);letter-spacing:.06em;
+  }
+  .foot span b{color:var(--accent)}
+
+  .scrim{display:none;position:fixed;inset:0;background:rgba(4,9,8,.66);z-index:55;backdrop-filter:blur(2px)}
+
+  @media (max-width:980px){
+    .sidebar{transform:translateX(-102%);transition:transform .26s ease}
+    .sidebar.open{transform:none}
+    .scrim.open{display:block}
+    .workspace{margin-left:0}
+    .icon-btn{display:grid}
+    .content{padding:22px 16px 8px}
+    .topbar{padding:12px 16px}
+    .topbar-title h2{font-size:23px;line-height:1.12}
+    .topbar-sub{font-size:12.5px}
+    .foot{margin:22px 16px 0}
+    .grid{grid-template-columns:1fr}
+    html{scroll-padding-top:104px}
+    .cat-section{scroll-margin-top:104px}
+    .card{scroll-margin-top:124px}
+  }
+  @media (max-width:520px){
+    .topbar-stats .chip:not(.chip-accent){display:none}
+    .topbar-sub{display:none}
+    .card-actions{width:100%}
+    .btn{flex:1;justify-content:center}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *{transition:none !important;animation:none !important}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#workspace">Skip to content</a>
+<div class="scrim" id="scrim" hidden></div>
+
+<aside class="sidebar" id="sidebar" aria-label="Syntax library navigation">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true">{;}</div>
+    <div>
+      <p class="brand-kicker">hasSy Component Library</p>
+      <h1 class="brand-title">hasSy <span>JS Syntax</span> Library</h1>
+    </div>
+  </div>
+
+  <div class="filter-wrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <input id="filter" class="filter-input" type="search" placeholder="Filter syntax..." autocomplete="off" spellcheck="false" aria-label="Filter syntax cards">
+  </div>
+  <p class="filter-meta"><b id="matchCount">101</b> of 101 references &middot; press <b>/</b> to focus</p>
+
+  <nav class="nav" id="nav" aria-label="Syntax categories"></nav>
+
+  <div class="sidebar-foot">Vanilla &middot; zero dependencies</div>
+</aside>
+
+<main class="workspace" id="workspace">
+  <header class="topbar">
+    <button class="icon-btn" id="menuBtn" type="button" aria-label="Open navigation" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <div class="topbar-title">
+      <p class="eyebrow">hasSy Component Library &middot; Reference Dashboard</p>
+      <h2>JavaScript Master Syntax <em>Cheat Sheet</em></h2>
+      <p class="topbar-sub">101 copy-ready syntax blueprints across 10 scroll-anchored categories &mdash; filter, explore, paste.</p>
+    </div>
+    <div class="topbar-stats">
+      <span class="chip">101 entries</span>
+      <span class="chip chip-accent">10 categories</span>
+    </div>
+  </header>
+
+  <div class="content" id="content"></div>
+
+  <div class="empty" id="empty" hidden>
+    <span class="big" aria-hidden="true">&#128269;</span>
+    <h3>No syntax matched your query</h3>
+    <p>Try a shorter keyword such as <em>promise</em>, <em>loop</em>, <em>class</em> or <em>array</em>.</p>
+  </div>
+
+  <footer class="foot">
+    <span><b>hasSy JS Syntax Library</b> &mdash; 101 verified blueprints</span>
+    <span>Single file &middot; embedded CSS &middot; client-side filtering</span>
+  </footer>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  var CATEGORIES = [
+    { key: "scope",   num: "01", short: "Scoping",     name: "Variable Scoping & Declarations",      anchor: "cat-scope" },
+    { key: "ops",     num: "02", short: "Operators",   name: "Operators & Pragmatic Assignments",    anchor: "cat-ops" },
+    { key: "cond",    num: "03", short: "Control Flow",name: "Conditional & Control Flow Structures",anchor: "cat-cond" },
+    { key: "loops",   num: "04", short: "Loops",       name: "Loops & Logical Iteration Primitives", anchor: "cat-loops" },
+    { key: "funcs",   num: "05", short: "Functions",   name: "Functions & Cognitive Scope",          anchor: "cat-funcs" },
+    { key: "objects", num: "06", short: "Objects",     name: "Object Manipulation & Classes",        anchor: "cat-objects" },
+    { key: "arrays",  num: "07", short: "Arrays",      name: "Array Manipulation & Methods",         anchor: "cat-arrays" },
+    { key: "async",   num: "08", short: "Async",       name: "Asynchronous State Control & Promises",anchor: "cat-async" },
+    { key: "modern",  num: "09", short: "Data",        name: "Modern Primitives & Data Structures",  anchor: "cat-modern" },
+    { key: "modules", num: "10", short: "Modules",     name: "Modules, Metadata & Recent ES Feat",   anchor: "cat-modules" }
+  ];
+
+  var DATA = [
+    /* ---------- 01 · VARIABLE SCOPING & DECLARATIONS (1-5) ---------- */
+    { id:1, cat:"scope", title:"var Declaration",
+      def:"Declares a variable with function scope that is hoisted and initialized to undefined, allowing redeclaration inside the same function.",
+      code:"function greet() {\n  var message = \"Hello\";\n  if (true) {\n    var message = \"Hi\";   // same binding, overwritten\n  }\n  return message;\n}\n\nconsole.log(greet()); // \"Hi\"",
+      use:"Legacy code and pre-ES6 environments where block scoping is not required.",
+      notes:"var is hoisted to the top of its function, so reading it before the line yields undefined rather than an error." },
+
+    { id:2, cat:"scope", title:"let Declaration",
+      def:"Declares a block-scoped variable that may be reassigned but cannot be redeclared within the same scope.",
+      code:"let count = 0;\ncount = count + 5;\ncount += 1;\n\nlet total = 10;\ntotal = total + count;   // 16\n\nconsole.log(count, total); // 6 16",
+      use:"Loop counters, reassigned state and any binding that must not leak outside its block.",
+      notes:"let lives in the temporal dead zone: accessing it before its declaration line throws a ReferenceError." },
+
+    { id:3, cat:"scope", title:"const Declaration",
+      def:"Declares a block-scoped binding that cannot be reassigned after initialization, while the referenced value itself may still mutate.",
+      code:"const API_URL = \"https://api.example.com\";\nconst user = { name: \"Ada\" };\n\nuser.name = \"Grace\";   // allowed: binding is fixed, value is not\n// API_URL = \"https://other.dev\";  // TypeError\n\nconsole.log(user.name); // \"Grace\"",
+      use:"Default choice for every binding; only switch to let when reassignment is genuinely needed.",
+      notes:"const prevents rebinding, not deep freezing — use Object.freeze for immutable data structures." },
+
+    { id:4, cat:"scope", title:"Global Assignment Without Declaration",
+      def:"Assigning to an undeclared identifier creates a property on the global object automatically in sloppy mode.",
+      code:"function createSession() {\n  sessionToken = crypto.randomUUID();  // no declaration keyword\n}\n\ncreateSession();\nconsole.log(globalThis.sessionToken); // e.g. \"3f1c9a2e-7b41-4d0f-9c68-2a15e0b7d441\"",
+      use:"Only for shims in non-module legacy scripts — always declare explicitly in modern code.",
+      notes:"Strict mode and ES modules throw a ReferenceError for implicit globals, so this pattern fails silently nowhere." },
+
+    { id:5, cat:"scope", title:"Block Scoping Primitives",
+      def:"Curly braces form a block scope: let and const bindings created inside never escape, whereas var still leaks to the function.",
+      code:"{\n  let scoped = \"block only\";\n  var leaked = \"function scope\";\n}\n\n// console.log(scoped);  // ReferenceError\nconsole.log(leaked);      // \"function scope\"",
+      use:"Isolating temporary state inside conditionals, loops and short-lived blocks.",
+      notes:"Every block, IIFE body and module is a scope — braces alone never capture var." },
+
+    /* ---------- 02 · OPERATORS & PRAGMATIC ASSIGNMENTS (6-15) ---------- */
+    { id:6, cat:"ops", title:"Arithmetic Operators",
+      def:"The standard numeric operators perform addition, subtraction, multiplication, division, remainder and exponentiation.",
+      code:"const sum       = 10 + 5;    // 15\nconst diff      = 10 - 4;     // 6\nconst product   = 6 * 7;      // 42\nconst quotient  = 20 / 4;     // 5\nconst remainder = 17 % 5;     // 2\nconst power     = 2 ** 10;    // 1024\n\nconsole.log(sum, power);",
+      use:"Calculations, pagination offsets and cyclic index math with the modulo operator.",
+      notes:"Division always returns a float; use Math.trunc or Math.floor when an integer result is required." },
+
+    { id:7, cat:"ops", title:"Strict Equality (===)",
+      def:"Compares both value and type without any coercion, returning false whenever the operand types differ.",
+      code:"console.log(5 === 5);      // true\nconsole.log(5 === \"5\");    // false\nconsole.log(NaN === NaN);  // false\nconsole.log(0 === -0);     // true\n\nconst user = { id: 1 };\nconsole.log(user === user); // true",
+      use:"Default comparison operator in every condition, guard clause and lookup.",
+      notes:"Because NaN is not equal to itself, validate numbers with Number.isNaN instead." },
+
+    { id:8, cat:"ops", title:"Loose Equality (==)",
+      def:"Compares values after converting mismatched types, which frequently produces surprising coercion results.",
+      code:"console.log(5 == \"5\");          // true\nconsole.log(null == undefined);    // true\nconsole.log(\"\" == false);         // true\nconsole.log([] == false);          // true\nconsole.log([\"1\"] == 1);          // true",
+      use:"Only where the single null == undefined shortcut is intentionally exploited.",
+      notes:"Prefer === everywhere else; the coercion table behind == is a classic source of production bugs." },
+
+    { id:9, cat:"ops", title:"Nullish Coalescing (??)",
+      def:"Returns the right-hand operand only when the left one is null or undefined, preserving every other falsy value.",
+      code:"const port = configPort ?? 3000;\nconst label = input ?? \"anonymous\";\n\nconsole.log(0 ?? 10);      // 0\nconsole.log(\"\" ?? \"txt\");  // \"\"\nconsole.log(null ?? 3000); // 3000\nconsole.log(label);",
+      use:"Fallback values for optional settings, API fields and route parameters.",
+      notes:"Unlike ||, the ?? operator does not swallow legitimate 0, empty string or false values." },
+
+    { id:10, cat:"ops", title:"Logical OR Assignment (||=)",
+      def:"Assigns the right operand only when the left operand evaluates to a falsy value.",
+      code:"const settings = {};\n\nsettings.theme ||= \"dark\";\nsettings.mode  ||= \"auto\";\n\nconsole.log(settings); // { theme: \"dark\", mode: \"auto\" }",
+      use:"Applying default configuration blocks when a key has not been set yet.",
+      notes:"Falsy includes 0 and empty strings, so a stored 0 will be overwritten by ||=." },
+
+    { id:11, cat:"ops", title:"Logical AND Assignment (&&=)",
+      def:"Keeps the left operand untouched unless it is truthy, in which case it is replaced by the right operand.",
+      code:"const profile = { verified: true, muted: false };\n\nprofile.verified &&= profile.muted === false;  // true\nprofile.muted    &&= true;                     // stays false\n\nconsole.log(profile); // { verified: true, muted: false }",
+      use:"Guarded updates where a value may only advance when a prerequisite flag is already true.",
+      notes:"&&= short-circuits: the right side is never evaluated when the left side is falsy." },
+
+    { id:12, cat:"ops", title:"Nullish Coalescing Assignment (??=)",
+      def:"Writes the right operand only when the current value is null or undefined, leaving other falsy values intact.",
+      code:"const prefs = { retries: null };\n\nprefs.retries  ??= 3;\nprefs.timeout  ??= 30;\n\nconsole.log(prefs); // { retries: 3, timeout: 30 }",
+      use:"Lazy initialization of optional keys that may legitimately hold 0 or false.",
+      notes:"??= is the null-safe counterpart of ||= and the safest defaulting assignment available." },
+
+    { id:13, cat:"ops", title:"Ternary Expressions (? :)",
+      def:"A compact conditional expression that evaluates a test and returns one of two branches without a statement block.",
+      code:"const age = 20;\nconst status = age >= 18 ? \"adult\" : \"minor\";\nconst grade  = score > 90 ? \"A\" : score > 80 ? \"B\" : \"C\";\n\nconsole.log(status, grade);",
+      use:"Inline computed values in JSX-style templates, defaults and formatted output.",
+      notes:"Keep ternaries to a single level of nesting — chained ternaries quickly become unreadable." },
+
+    { id:14, cat:"ops", title:"Bitwise Operations",
+      def:"Bitwise operators work on 32-bit integer representations using AND, OR, XOR, NOT and bit shifting.",
+      code:"const a = 0b1010;  // 10\nconst b = 0b1100;  // 12\n\nconsole.log(a & b);    // 8\nconsole.log(a | b);    // 14\nconsole.log(a ^ b);    // 6\nconsole.log(~a);       // -11\nconsole.log(a << 2);   // 40\nconsole.log(a >> 1);   // 5",
+      use:"Feature flag masks, permission bitsets and fast powers-of-two arithmetic.",
+      notes:"Bitwise math coerces to a signed 32-bit integer, so values above 2^31 lose precision." },
+
+    { id:15, cat:"ops", title:"typeof Operator",
+      def:"Returns a string naming the primitive type of its operand, making it the first line of runtime type inspection.",
+      code:"console.log(typeof 42);            // \"number\"\nconsole.log(typeof \"hi\");          // \"string\"\nconsole.log(typeof true);           // \"boolean\"\nconsole.log(typeof undefined);      // \"undefined\"\nconsole.log(typeof null);           // \"object\"  (historic bug)\nconsole.log(typeof []);             // \"object\"\nconsole.log(typeof function () {}); // \"function\"",
+      use:"Defensive argument validation and safe existence checks before invoking a value.",
+      notes:"Array and null both report \"object\" — use Array.isArray and === null for precise checks." },
+
+    /* ---------- 03 · CONDITIONAL & CONTROL FLOW (16-25) ---------- */
+    { id:16, cat:"cond", title:"if...else Statement",
+      def:"Executes one of several statement blocks based on a boolean condition and its optional fallback branch.",
+      code:"const temperature = 28;\n\nif (temperature > 30) {\n  console.log(\"Hot\");\n} else if (temperature > 20) {\n  console.log(\"Warm\");\n} else {\n  console.log(\"Cool\");\n}",
+      use:"Branching business rules where readability of each condition matters more than brevity.",
+      notes:"Conditions are coerced to booleans — an empty array or object is truthy, not falsy." },
+
+    { id:17, cat:"cond", title:"switch...case Statement",
+      def:"Compares one expression against a list of matching case clauses, with fall-through behavior between adjacent cases.",
+      code:"const day = \"Mon\";\n\nswitch (day) {\n  case \"Mon\":\n  case \"Tue\":\n    console.log(\"Start of week\");\n    break;\n  case \"Sat\":\n  case \"Sun\":\n    console.log(\"Weekend\");\n    break;\n  default:\n    console.log(\"Midweek\");\n}",
+      use:"Dispatching command strings, action types and status enums with shared outcomes.",
+      notes:"switch uses strict comparison, but forgetting break causes unintended fall-through into the next case." },
+
+    { id:18, cat:"cond", title:"switch Default Handling",
+      def:"The default clause captures every value that matched no case, guaranteeing the switch always produces an outcome.",
+      code:"function roleLabel(role) {\n  switch (role) {\n    case \"admin\":  return \"Administrator\";\n    case \"editor\": return \"Editor\";\n    default:       return \"Guest\";\n  }\n}\n\nconsole.log(roleLabel(\"viewer\")); // \"Guest\"",
+      use:"Providing safe fallbacks for user input, API enums and unknown event types.",
+      notes:"default can sit anywhere in the switch body — execution only reaches it when no earlier case matched." },
+
+    { id:19, cat:"cond", title:"break Statement",
+      def:"Terminates the innermost loop or switch immediately and transfers control to the following statement.",
+      code:"for (let i = 0; i < 10; i++) {\n  if (i === 5) break;\n  console.log(i);   // 0 1 2 3 4\n}\n\nconsole.log(\"loop finished\");",
+      use:"Early exits on success, sentinel searches and stopping work once a limit is reached.",
+      notes:"break only leaves the nearest enclosing loop — use a labeled break to escape nested structures." },
+
+    { id:20, cat:"cond", title:"continue Modifier",
+      def:"Skips the remainder of the current iteration and jumps straight to the next loop cycle.",
+      code:"for (let i = 0; i < 6; i++) {\n  if (i % 2 !== 0) continue;\n  console.log(i);   // 0 2 4\n}\n\nconsole.log(\"done\");",
+      use:"Filtering invalid records mid-iteration without deeply nesting conditionals.",
+      notes:"In a while loop, make sure continue still advances the counter or the loop becomes infinite." },
+
+    { id:21, cat:"cond", title:"try...catch Blocks",
+      def:"Wraps risky code so runtime failures are captured by a handler instead of crashing the surrounding execution.",
+      code:"try {\n  const data = JSON.parse(\"{ invalid }\");\n  console.log(data);\n} catch (error) {\n  console.error(\"Parse failed:\", error.message);\n}\n\nconsole.log(\"execution continues\");",
+      use:"Parsing external payloads, storage access and any operation that may throw at runtime.",
+      notes:"Keep the try block as small as possible so errors from unrelated code cannot be swallowed." },
+
+    { id:22, cat:"cond", title:"throw Statement",
+      def:"Raises a user-defined exception carrying an error object that unwinds the stack until a catch handles it.",
+      code:"function divide(a, b) {\n  if (b === 0) throw new RangeError(\"Division by zero\");\n  return a / b;\n}\n\ntry {\n  console.log(divide(10, 0));\n} catch (error) {\n  console.error(error.name, error.message);\n}",
+      use:"Enforcing preconditions inside functions and failing fast on invalid API contracts.",
+      notes:"Throw Error subclasses rather than plain strings so stack traces and names stay useful." },
+
+    { id:23, cat:"cond", title:"try...catch...finally",
+      def:"Adds a finally block that always runs after the try or catch, regardless of whether an exception occurred.",
+      code:"const connection = {\n  open()  { console.log(\"open\"); },\n  close() { console.log(\"close\"); }\n};\n\ntry {\n  connection.open();\n  throw new Error(\"timeout\");\n} catch (err) {\n  console.error(err.message);\n} finally {\n  connection.close();   // always runs\n}",
+      use:"Releasing resources, closing sockets and clearing timers after success or failure.",
+      notes:"A return inside finally overrides any pending return from the try block — avoid it." },
+
+    { id:24, cat:"cond", title:"Conditional Error Checking Blocks",
+      def:"Guard blocks validate inputs up front and throw before any real work begins, keeping the main path clean.",
+      code:"function createUser(payload) {\n  if (!payload || typeof payload.name !== \"string\") {\n    throw new TypeError(\"A valid name is required\");\n  }\n  if (payload.age < 0) {\n    throw new RangeError(\"Age cannot be negative\");\n  }\n  return { name: payload.name, age: payload.age };\n}\n\nconsole.log(createUser({ name: \"Ada\", age: 36 }));",
+      use:"Validating form data and API request bodies before processing them.",
+      notes:"This guard-clause style inverts the happy path so deeply nested ifs disappear from your code." },
+
+    { id:25, cat:"cond", title:"Label Statements",
+      def:"Attaches an identifier to a statement so that break or continue can target it from a nested position.",
+      code:"checkpoint: {\n  const value = 42;\n  if (value !== 42) break checkpoint;\n  console.log(\"reached the end of the labeled block\", value);\n}",
+      use:"Exiting several scopes at once without extra boolean flags or helper functions.",
+      notes:"Labels are most useful on blocks and loops; in plain code a function return is usually clearer." },
+
+    /* ---------- 04 · LOOPS & ITERATION (26-35) ---------- */
+    { id:26, cat:"loops", title:"Standard for Loop",
+      def:"Runs a counted iteration with explicit initialization, test condition and update expression.",
+      code:"for (let i = 0; i < 5; i++) {\n  console.log(\"index: \" + i);   // 0 1 2 3 4\n}\n\nconsole.log(\"finished\");",
+      use:"Indexed access to arrays, range generation and count-driven progress reporting.",
+      notes:"Declare the counter with let so each iteration receives a fresh binding inside closures." },
+
+    { id:27, cat:"loops", title:"while Loop",
+      def:"Repeats a body for as long as its condition remains true, checking the condition before each run.",
+      code:"let attempts = 3;\n\nwhile (attempts > 0) {\n  console.log(\"attempt remaining: \" + attempts);\n  attempts--;\n}\n\nconsole.log(\"stopped\");",
+      use:"Retry policies, polling and any loop whose exit condition is only known at runtime.",
+      notes:"Always mutate something the condition depends on, otherwise the loop never terminates." },
+
+    { id:28, cat:"loops", title:"do...while Block",
+      def:"Executes the body once before evaluating the condition, guaranteeing at least a single iteration.",
+      code:"let dice;\n\ndo {\n  dice = Math.floor(Math.random() * 6) + 1;\n  console.log(\"rolled \" + dice);\n} while (dice < 4);\n\nconsole.log(\"accepted: \" + dice);",
+      use:"Menus, prompts and retry attempts that must run before validity can be judged.",
+      notes:"Because the body runs first, variables it declares are visible afterwards in the same scope." },
+
+    { id:29, cat:"loops", title:"for...in (Object Key Iterator)",
+      def:"Iterates over the enumerable string keys of an object, including inherited enumerable properties.",
+      code:"const person = { name: \"Ada\", role: \"engineer\" };\n\nfor (const key in person) {\n  if (!Object.hasOwn(person, key)) continue;\n  console.log(key + \" => \" + person[key]);\n}",
+      use:"Enumerating object configuration maps when key names are only known at runtime.",
+      notes:"for...in is for objects — use for...of for arrays to avoid index-string surprises." },
+
+    { id:30, cat:"loops", title:"for...of (Iterable Value Loop)",
+      def:"Iterates the values of any iterable such as arrays, strings, Maps, Sets and generators.",
+      code:"const tags = [\"js\", \"css\", \"dom\"];\n\nfor (const tag of tags) {\n  console.log(tag.toUpperCase());   // JS CSS DOM\n}\n\nfor (const char of \"hi\") console.log(char);",
+      use:"Readable traversal of arrays, API collections and any custom iterable protocol.",
+      notes:"for...of does not expose an index — keep your own counter when position is required." },
+
+    { id:31, cat:"loops", title:"Array.prototype.forEach()",
+      def:"Calls a callback once for every array element, receiving the value, index and original array each time.",
+      code:"const prices = [10, 20, 30];\n\nprices.forEach((price, index, list) => {\n  console.log(index + \": $\" + (price * 1.2).toFixed(2));\n});\n\nconsole.log(\"list length \" + prices.length);",
+      use:"Side-effect work such as logging or DOM updates where no transformed array is returned.",
+      notes:"forEach cannot break early — use for...of with break when you need to stop mid-way." },
+
+    { id:32, cat:"loops", title:"Infinite Loop Safe Syntax",
+      def:"An omitted-condition for loop runs forever unless an explicit guard breaks it out safely.",
+      code:"let n = 0;\n\nfor (;;) {\n  n++;\n  if (n >= 3) break;   // guaranteed exit guard\n}\n\nconsole.log(\"iterations: \" + n);   // 3",
+      use:"Worker-style polling loops that terminate on an external flag or sentinel value.",
+      notes:"Always define the break condition before writing the body — an unguarded for(;;) freezes the tab." },
+
+    { id:33, cat:"loops", title:"Nested Loops With Breaks",
+      def:"An inner break exits only the inner loop while the outer iteration keeps advancing normally.",
+      code:"const matrix = [\n  [1, 2, 3],\n  [4, 5, 6],\n  [7, 8, 9]\n];\n\nfor (let r = 0; r < matrix.length; r++) {\n  for (let c = 0; c < matrix[r].length; c++) {\n    if (matrix[r][c] % 2 === 0) break;\n    console.log(\"odd at \" + r + c + \": \" + matrix[r][c]);\n  }\n}",
+      use:"Scanning rows of tabular data and stopping once a per-row condition is met.",
+      notes:"If you need the outer loop to stop too, prefix break with a label as shown in the next entry." },
+
+    { id:34, cat:"loops", title:"Labels Within Iterations",
+      def:"A label bound to the outer loop lets break or continue control both levels of nesting at once.",
+      code:"const rows = [[1, 2], [3, 4]];\nconst target = 3;\n\nsearch: for (let r = 0; r < rows.length; r++) {\n  for (let c = 0; c < rows[r].length; c++) {\n    if (rows[r][c] === target) {\n      console.log(\"match at \" + r + \",\" + c);\n      break search;\n    }\n  }\n}",
+      use:"Searching grids, trees and nested collections where the first hit ends the whole scan.",
+      notes:"continue label restarts the labeled loop rather than the inner one — useful for skipping rows." },
+
+    { id:35, cat:"loops", title:"Early Loop Returns",
+      def:"Wrapping a loop in a function allows return to abandon the iteration instantly with a computed result.",
+      code:"function firstMatch(items, predicate) {\n  for (const item of items) {\n    if (predicate(item)) return item;   // early exit\n  }\n  return null;\n}\n\nconsole.log(firstMatch([1, 2, 3], n => n > 2));   // 3",
+      use:"Lookups, permission checks and short-circuit searches over collections.",
+      notes:"Prefer Array.prototype.find for a declarative equivalent of this exact pattern." },
+
+    /* ---------- 05 · FUNCTIONS & SCOPE (36-45) ---------- */
+    { id:36, cat:"funcs", title:"Named Function Declarations",
+      def:"A hoisted function statement with its own name, available before its defining line is executed.",
+      code:"function add(a, b) {\n  return a + b;\n}\n\nconsole.log(add(2, 3));   // 5\nconsole.log(add.name);    // \"add\"",
+      use:"Reusable helpers, recursive logic and named stack traces in application code.",
+      notes:"Hoisting lifts only declarations — assigning a function expression to a var is a different story." },
+
+    { id:37, cat:"funcs", title:"Anonymous Function Expressions",
+      def:"A function without an identifier that must be stored or passed at the moment it is created.",
+      code:"const multiply = function (a, b) {\n  return a * b;\n};\n\nconst operate = function self(v) {\n  return v > 0 ? self(v - 1) : 0;\n};\n\nconsole.log(multiply(4, 5), operate(3));   // 20 0",
+      use:"Callbacks, event handlers and any value-style function passed to another API.",
+      notes:"The optional inner name only exists inside the function, which is handy for self-reference." },
+
+    { id:38, cat:"funcs", title:"Arrow Functions",
+      def:"Concise function syntax that lexically inherits this from the surrounding scope and skips its own arguments object.",
+      code:"const square = n => n * n;\nconst sum = (a, b) => a + b;\nconst tag = name => `hello \${name}`;\nconst pick = user => ({ name: user.name });\n\nconsole.log(square(7), sum(1, 2), tag(\"Ada\"));",
+      use:"Short callbacks for map, filter and event listeners where this binding must not change.",
+      notes:"Arrows cannot be used with new and do not hoist — they are values, not declarations." },
+
+    { id:39, cat:"funcs", title:"Immediately Invoked Function Expression (IIFE)",
+      def:"A function that runs the instant it is created, producing a private scope with a returned public value.",
+      code:"const config = (function () {\n  const secret = \"internal\";\n  const read = () => secret;\n  return { version: \"1.0\", read: read };\n})();\n\nconsole.log(config.version, config.read());   // \"1.0\" \"internal\"",
+      use:"Encapsulating legacy module state before ES modules were available.",
+      notes:"Modern code should prefer ES modules, but the IIFE remains ideal for one-off initialization." },
+
+    { id:40, cat:"funcs", title:"Generator Functions (function*)",
+      def:"A special function that pauses on demand and returns an iterator instead of computing everything at once.",
+      code:"function* idGenerator() {\n  let id = 0;\n  while (true) yield ++id;\n}\n\nconst ids = idGenerator();\nconsole.log(ids.next().value);   // 1\nconsole.log(ids.next().value);   // 2",
+      use:"Infinite sequences, cursor-style APIs and streaming large datasets lazily.",
+      notes:"Calling a generator only creates the iterator — the body starts executing on the first next()." },
+
+    { id:41, cat:"funcs", title:"Generator yield Syntax",
+      def:"yield pauses the generator, emits a value to the caller and resumes exactly where execution stopped.",
+      code:"function* range(start, end) {\n  for (let i = start; i <= end; i++) {\n    yield i;\n  }\n}\n\nconsole.log([...range(1, 4)]);   // [1, 2, 3, 4]\nfor (const n of range(5, 6)) console.log(n);",
+      use:"Building custom iterables, paging through results and simplifying state machines.",
+      notes:"yield* delegates to another iterable, flattening a nested generator in a single expression." },
+
+    { id:42, cat:"funcs", title:"Rest Parameters (...args)",
+      def:"Collects an unlimited number of trailing arguments into a real array inside the function body.",
+      code:"function total(label, ...numbers) {\n  const sum = numbers.reduce((acc, n) => acc + n, 0);\n  return label + \": \" + sum;\n}\n\nconsole.log(total(\"sum\", 1, 2, 3));   // \"sum: 6\"\nconsole.log(total(\"empty\"));           // \"empty: 0\"",
+      use:"Variadic APIs, formatting helpers and forwarding arbitrary arguments to another function.",
+      notes:"A rest parameter must be last, and only one is allowed per parameter list." },
+
+    { id:43, cat:"funcs", title:"Default Argument Fallbacks",
+      def:"Parameter initializers activate whenever the caller supplies undefined, giving functions safe out-of-the-box behavior.",
+      code:"function createUser(name, role = \"viewer\", active = true) {\n  return { name: name, role: role, active: active };\n}\n\nconsole.log(createUser(\"Ada\"));              // role \"viewer\"\nconsole.log(createUser(\"Grace\", \"admin\"));   // active true\nconsole.log(createUser(\"Lin\", \"editor\", false));",
+      use:"Optional API options objects, styling defaults and configuration merging.",
+      notes:"Only undefined triggers the default — passing null deliberately keeps the null value." },
+
+    { id:44, cat:"funcs", title:"Getter Syntax Methods",
+      def:"A get accessor computed on demand so a property can be read like data while running logic behind the scenes.",
+      code:"const circle = {\n  radius: 5,\n  get area() {\n    return Math.PI * this.radius ** 2;\n  }\n};\n\nconsole.log(circle.area);   // 78.53981633974483\nconsole.log(circle.area);   // recomputed each read",
+      use:"Derived values, formatted display strings and lazily calculated properties.",
+      notes:"Getters are not enumerable in for...in loops and should stay side-effect free." },
+
+    { id:45, cat:"funcs", title:"Setter Syntax Methods",
+      def:"A set accessor that intercepts writes to a property, enabling validation before the underlying value changes.",
+      code:"const account = {\n  _balance: 0,\n  set balance(amount) {\n    if (amount < 0) throw new RangeError(\"Negative balance\");\n    this._balance = amount;\n  },\n  get balance() { return this._balance; }\n};\n\naccount.balance = 120;\nconsole.log(account.balance);   // 120",
+      use:"Guarding invariants on class fields and syncing state whenever a property is assigned.",
+      notes:"Define both accessors together — a setter without a getter makes the property read as undefined." },
+
+    /* ---------- 06 · OBJECTS & CLASSES (46-55) ---------- */
+    { id:46, cat:"objects", title:"Object Literals",
+      def:"A compact syntax for creating objects with key-value pairs and concise method definitions in one expression.",
+      code:"const user = {\n  name: \"Ada\",\n  age: 36,\n  greet() {\n    return \"Hi, \" + this.name;\n  }\n};\n\nconsole.log(user.greet());   // \"Hi, Ada\"",
+      use:"Configuration maps, DTOs and plain data structures returned from APIs.",
+      notes:"Object literals are not classes — this inside a method refers to the object at call time." },
+
+    { id:47, cat:"objects", title:"Computed Property Keys",
+      def:"Square brackets let an expression determine a property name at runtime instead of a fixed identifier.",
+      code:"const field = \"email\";\nconst prefix = \"tag\";\n\nconst contact = {\n  [field]: \"ada@example.com\",\n  [prefix + \"s\"]: [\"js\", \"math\"]\n};\n\nconsole.log(contact.email, contact.tags);",
+      use:"Dynamic form builders, i18n dictionaries and mapping API keys to object fields.",
+      notes:"The expression is evaluated once, so avoid heavy computations inside the brackets." },
+
+    { id:48, cat:"objects", title:"Shorthand Property Initializations",
+      def:"Matching variable names collapse into a single token, assigning the variable value without repeating the key.",
+      code:"const userName = \"Ada\";\nconst role = \"engineer\";\nconst active = true;\n\nconst profile = { userName, role, active };\nconsole.log(profile);   // { userName: \"Ada\", role: \"engineer\", active: true }",
+      use:"Returning objects from functions and passing concise context to other modules.",
+      notes:"Shorthand always takes the current variable value — later reassignment does not affect the object." },
+
+    { id:49, cat:"objects", title:"Method Definitions",
+      def:"Concise method shorthand inside an object or class body, optionally chained by returning this.",
+      code:"const calculator = {\n  value: 0,\n  add(n) { this.value += n; return this; },\n  subtract(n) { this.value -= n; return this; }\n};\n\nconst result = calculator.add(5).subtract(2).value;\nconsole.log(result);   // 3",
+      use:"Fluent builders, chains and service objects with multiple related behaviors.",
+      notes:"Method shorthand functions are not constructible with new, unlike function expressions." },
+
+    { id:50, cat:"objects", title:"Class Declarations",
+      def:"A blueprint that bundles state in a constructor and behavior in methods, instantiated with the new keyword.",
+      code:"class Account {\n  constructor(owner) {\n    this.owner = owner;\n    this.balance = 0;\n  }\n  deposit(amount) {\n    this.balance += amount;\n    return this.balance;\n  }\n}\n\nconst acct = new Account(\"Ada\");\nconsole.log(acct.deposit(50));   // 50",
+      use:"Domain entities, service layers and anywhere shared behavior across instances is needed.",
+      notes:"Class declarations are not hoisted like functions — instantiate only after the declaration line." },
+
+    { id:51, cat:"objects", title:"Constructor Syntax",
+      def:"The constructor method initializes each new instance, accepting parameters and supporting default values.",
+      code:"class Point {\n  #x;\n  #y;\n  constructor(x = 0, y = 0) {\n    this.#x = x;\n    this.#y = y;\n  }\n  toString() {\n    return \"(\" + this.#x + \", \" + this.#y + \")\";\n  }\n}\n\nconsole.log(new Point(3, 4).toString());   // \"(3, 4)\"",
+      use:"Normalizing incoming payloads into a consistent internal object shape.",
+      notes:"Exactly one constructor per class; derived classes must call super before using this." },
+
+    { id:52, cat:"objects", title:"Class Inheritance (extends)",
+      def:"A subclass inherits every property and method of its parent and can override selected behavior.",
+      code:"class Animal {\n  constructor(name) { this.name = name; }\n  speak() { return this.name + \" makes a sound\"; }\n}\n\nclass Dog extends Animal {\n  speak() { return this.name + \" barks\"; }\n}\n\nconsole.log(new Dog(\"Rex\").speak());   // \"Rex barks\"",
+      use:"Specialized variants of shared base classes such as payment or renderer types.",
+      notes:"Methods not overridden are inherited automatically — super.speak() can extend the parent result." },
+
+    { id:53, cat:"objects", title:"super() Method Call Mechanics",
+      def:"super invokes the parent constructor or method, and must run before this is accessed inside a derived constructor.",
+      code:"class Vehicle {\n  constructor(type) { this.type = type; }\n}\n\nclass Car extends Vehicle {\n  constructor(brand) {\n    super(\"car\");\n    this.brand = brand;\n  }\n}\n\nconst tesla = new Car(\"Tesla\");\nconsole.log(tesla.type, tesla.brand);   // \"car\" \"Tesla\"",
+      use:"Extending constructors while preserving parent initialization logic.",
+      notes:"Omitting super() in a derived constructor throws a ReferenceError on first this usage." },
+
+    { id:54, cat:"objects", title:"Static Methods",
+      def:"Static members belong to the class itself rather than to instances and are called directly on the class name.",
+      code:"class MathUtils {\n  static clamp(value, min, max) {\n    return Math.min(Math.max(value, min), max);\n  }\n  static sum(list) {\n    return list.reduce((a, b) => a + b, 0);\n  }\n}\n\nconsole.log(MathUtils.clamp(15, 0, 10));   // 10",
+      use:"Factory functions, utility helpers and namespace-level operations on a class.",
+      notes:"Static methods cannot read instance fields — they have no this bound to an object." },
+
+    { id:55, cat:"objects", title:"Private Class Fields (#field)",
+      def:"Hash-prefixed fields are truly private at the language level and are inaccessible from outside the class body.",
+      code:"class BankAccount {\n  #balance = 0;\n  deposit(amount) { this.#balance += amount; }\n  get balance() { return this.#balance; }\n}\n\nconst acc = new BankAccount();\nacc.deposit(100);\nconsole.log(acc.balance);   // 100\n// acc.#balance;             // SyntaxError",
+      use:"Protecting invariants such as credentials, counters and internal caches.",
+      notes:"Private fields are enforced by the parser — unlike _prefix, they cannot be read from anywhere else." },
+
+    /* ---------- 07 · ARRAY METHODS (56-70) ---------- */
+    { id:56, cat:"arrays", title:"Array Literals",
+      def:"Bracket syntax creates a dense list that can hold values of any type and reports its size through length.",
+      code:"const fruits = [\"apple\", \"banana\", \"cherry\"];\nconst mixed = [1, \"two\", true, null, undefined];\n\nconsole.log(fruits[0], fruits.length);   // \"apple\" 3\nfruits[1] = \"berry\";\nconsole.log(fruits);",
+      use:"Ordered collections, lists of identifiers and default argument arrays.",
+      notes:"Trailing commas are ignored, so [1, 2, 3,] still contains exactly three elements." },
+
+    { id:57, cat:"arrays", title:"Multidimensional Arrays",
+      def:"Arrays of arrays form matrices addressed with chained index access on each dimension.",
+      code:"const grid = [\n  [1, 2, 3],\n  [4, 5, 6]\n];\n\nconsole.log(grid[1][2]);   // 6\ngrid[0][0] = 9;\nconsole.log(grid[0]);      // [9, 2, 3]",
+      use:"Spreadsheets, game boards, pixel buffers and any two-dimensional coordinate data.",
+      notes:"Rows are references — copying the outer array does not deep-copy the inner rows." },
+
+    { id:58, cat:"arrays", title:"Array.prototype.push()",
+      def:"Appends one or more elements to the end of an array and returns the new length.",
+      code:"const queue = [\"a\", \"b\"];\nconst size = queue.push(\"c\", \"d\");\n\nconsole.log(size);   // 4\nconsole.log(queue);   // [\"a\", \"b\", \"c\", \"d\"]",
+      use:"Accumulating results, building stacks and appending streamed chunks.",
+      notes:"push mutates in place — use concat or spread when an unchanged original is required." },
+
+    { id:59, cat:"arrays", title:"Array.prototype.pop()",
+      def:"Removes the final element of an array, returns it and shortens the array by one position.",
+      code:"const stack = [1, 2, 3];\nconst last = stack.pop();\n\nconsole.log(last);   // 3\nconsole.log(stack);   // [1, 2]\nconsole.log(stack.pop());   // 2",
+      use:"Implementing LIFO stacks, undo history and draining a work queue.",
+      notes:"Calling pop on an empty array returns undefined rather than throwing." },
+
+    { id:60, cat:"arrays", title:"Array.prototype.shift()",
+      def:"Removes and returns the first element, shifting every remaining index down by one.",
+      code:"const tasks = [\"first\", \"second\", \"third\"];\nconst done = tasks.shift();\n\nconsole.log(done);   // \"first\"\nconsole.log(tasks);   // [\"second\", \"third\"]",
+      use:"FIFO queues and processing items in arrival order.",
+      notes:"Each shift reindexes the whole array, so prefer an index pointer in performance-critical loops." },
+
+    { id:61, cat:"arrays", title:"Array.prototype.unshift()",
+      def:"Inserts one or more elements at the start of an array and returns the resulting length.",
+      code:"const list = [\"b\", \"c\"];\nconst size = list.unshift(\"a\");\n\nconsole.log(size);   // 3\nconsole.log(list);   // [\"a\", \"b\", \"c\"]",
+      use:"Prepending notifications, recent-item lists and priority front insertion.",
+      notes:"unshift is the inverse of shift, with the same O(n) reindexing cost." },
+
+    { id:62, cat:"arrays", title:"Array.prototype.map()",
+      def:"Creates a new array by applying a callback to every element, preserving the original order and length.",
+      code:"const nums = [1, 2, 3];\nconst doubled = nums.map(n => n * 2);\nconst labels = nums.map(n => `#${n}`);\n\nconsole.log(doubled);   // [2, 4, 6]\nconsole.log(labels);    // [\"#1\", \"#2\", \"#3\"]",
+      use:"Transforming API payloads, formatting display values and deriving parallel arrays.",
+      notes:"map is for transformation — when the callback only filters, use filter instead." },
+
+    { id:63, cat:"arrays", title:"Array.prototype.filter()",
+      def:"Returns a new array containing only the elements for which the callback returned a truthy value.",
+      code:"const users = [\n  { name: \"Ada\", active: true },\n  { name: \"Lin\", active: false },\n  { name: \"Max\", active: true }\n];\n\nconst active = users.filter(u => u.active);\nconsole.log(active.length);   // 2",
+      use:"Removing null rows, applying search predicates and gating permission lists.",
+      notes:"filter never mutates the source and returns a new array even when nothing is removed." },
+
+    { id:64, cat:"arrays", title:"Array.prototype.reduce()",
+      def:"Boils an array down to a single accumulated value by threading an accumulator through every element.",
+      code:"const cart = [{ price: 10 }, { price: 25 }];\nconst total = cart.reduce((sum, item) => sum + item.price, 0);\n\nconst grouped = cart.reduce((acc, item) => {\n  acc[item.price] = (acc[item.price] || 0) + 1;\n  return acc;\n}, {});\n\nconsole.log(total, grouped);",
+      use:"Totals, grouping, de-duplication and converting arrays into maps or trees.",
+      notes:"Always pass an initial value — an empty reduce without one throws a TypeError." },
+
+    { id:65, cat:"arrays", title:"Array.prototype.find()",
+      def:"Returns the very first element matching the predicate, or undefined when nothing matches.",
+      code:"const products = [\n  { id: 1, sku: \"A1\" },\n  { id: 2, sku: \"B2\" },\n  { id: 3, sku: \"C3\" }\n];\n\nconst item = products.find(p => p.id === 2);\nconsole.log(item.sku);   // \"B2\"\nconsole.log(products.find(p => p.id === 99));   // undefined",
+      use:"Primary-key lookups where only one record should ever be returned.",
+      notes:"find stops at the first match, making it faster than filter for single-record queries." },
+
+    { id:66, cat:"arrays", title:"Array.prototype.findIndex()",
+      def:"Returns the index of the first matching element, or -1 when the predicate matches nothing.",
+      code:"const values = [10, 20, 30];\nconst index = values.findIndex(v => v > 15);\nconst miss   = values.findIndex(v => v > 90);\n\nconsole.log(index, miss);   // 1 -1\nvalues[index] = 25;",
+      use:"Locating a record you still need to mutate in place afterwards.",
+      notes:"Use indexOf for simple value equality and findIndex only when a callback is required." },
+
+    { id:67, cat:"arrays", title:"Array.prototype.includes()",
+      def:"Checks whether an array contains a value, returning a boolean and treating NaN as equal to itself.",
+      code:"const roles = [\"admin\", \"editor\", \"viewer\"];\n\nconsole.log(roles.includes(\"editor\"));   // true\nconsole.log(roles.includes(\"guest\"));    // false\nconsole.log([NaN].includes(NaN));         // true",
+      use:"Feature lists, allow-lists and quick membership tests in conditions.",
+      notes:"includes uses SameValueZero, so it correctly recognises NaN where indexOf does not." },
+
+    { id:68, cat:"arrays", title:"Array.prototype.slice()",
+      def:"Returns a shallow copy of a portion of an array without modifying the original.",
+      code:"const letters = [\"a\", \"b\", \"c\", \"d\"];\n\nconsole.log(letters.slice(1, 3));   // [\"b\", \"c\"]\nconsole.log(letters.slice(-2));      // [\"c\", \"d\"]\nconsole.log(letters.slice());        // full copy\nconsole.log(letters);                // unchanged",
+      use:"Pagination windows, pagination previews and non-destructive array copies.",
+      notes:"slice(0) is the idiomatic shallow copy — the end index is always exclusive." },
+
+    { id:69, cat:"arrays", title:"Array.prototype.splice()",
+      def:"Removes or inserts elements at a given index in place, returning the array of removed items.",
+      code:"const items = [\"x\", \"y\", \"z\"];\nconst removed = items.splice(1, 1, \"new\");\n\nconsole.log(removed);   // [\"y\"]\nconsole.log(items);     // [\"x\", \"new\", \"z\"]\nitems.splice(1, 0, \"ins\");\nconsole.log(items);     // [\"x\", \"ins\", \"new\", \"z\"]",
+      use:"Editing tables in place, reordering lists and surgical record replacement.",
+      notes:"The second argument is the delete count — pass 0 when you only want to insert." },
+
+    { id:70, cat:"arrays", title:"Array.from()",
+      def:"Builds a new array from array-likes, iterables or a mapping function applied during construction.",
+      code:"const fromString = Array.from(\"js\");\nconst doubled = Array.from([1, 2], n => n * 10);\nconst fromSet = Array.from(new Set([1, 1, 2]));\n\nconsole.log(fromString);   // [\"j\", \"s\"]\nconsole.log(doubled);      // [10, 20]\nconsole.log(fromSet);      // [1, 2]",
+      use:"Converting DOM NodeLists, arguments objects and Sets into real arrays.",
+      notes:"Array.from respects the length property of array-likes, unlike the spread operator alone." },
+
+    /* ---------- 08 · ASYNCHRONOUS & PROMISES (71-80) ---------- */
+    { id:71, cat:"async", title:"Basic Promise Initialization",
+      def:"A Promise wraps an asynchronous operation with a resolver callback that settles it as fulfilled or rejected.",
+      code:"const delayed = new Promise((resolve, reject) => {\n  const online = true;\n  setTimeout(() => {\n    if (online) resolve(\"connected\");\n    else reject(new Error(\"offline\"));\n  }, 150);\n});\n\ndelayed.then(console.log);   // \"connected\" after 150ms",
+      use:"Wrapping callbacks, timers and third-party SDKs in a uniform thenable interface.",
+      notes:"Executor code runs immediately — any thrown error automatically rejects the promise." },
+
+    { id:72, cat:"async", title:"Promise.resolve()",
+      def:"Returns a promise already fulfilled with the supplied value, ideal for consistent async return paths.",
+      code:"const cached = Promise.resolve({ id: 1, name: \"cached\" });\n\nPromise.resolve(42)\n  .then(v => v * 2)\n  .then(v => console.log(v));   // 84\n\ncached.then(data => console.log(data.name));",
+      use:"Normalizing sync values inside async functions and short-circuiting stale requests.",
+      notes:"If the argument is already a promise, resolve returns that same promise untouched." },
+
+    { id:73, cat:"async", title:"Promise.reject()",
+      def:"Returns a promise already rejected with the given reason, letting error paths stay inside the promise chain.",
+      code:"const missing = Promise.reject(new Error(\"resource not found\"));\n\nmissing.catch(err => {\n  console.error(\"caught:\", err.message);   // \"caught: resource not found\"\n});\n\nsetTimeout(() => console.log(\"chain handled\"), 10);",
+      use:"Simulating failures in tests and short-circuiting validation inside async pipelines.",
+      notes:"Always attach a catch synchronously or Node reports an unhandled rejection warning." },
+
+    { id:74, cat:"async", title:"Promise.prototype.then()",
+      def:"Schedules a fulfillment handler and produces a new promise, enabling sequential chaining of async steps.",
+      code:"const getUser = () => Promise.resolve({ id: 7, name: \"Ada\" });\n\ngetUser()\n  .then(user => user.name)\n  .then(name => name.toUpperCase())\n  .then(result => console.log(result));   // \"ADA\"",
+      use:"Chaining dependent requests, transforming responses and reading computed values.",
+      notes:"Returning a promise inside then automatically unwraps it before the next handler runs." },
+
+    { id:75, cat:"async", title:"Promise.prototype.catch()",
+      def:"Handles any rejection raised earlier in the chain and returns a promise that resumes as fulfilled.",
+      code:"const risky = () => Promise.reject(new Error(\"boom\"));\n\nrisky()\n  .then(v => console.log(\"never runs\"))\n  .catch(err => console.error(\"handled:\", err.message))   // \"handled: boom\"\n  .then(v => console.log(\"recovered\"));",
+      use:"Centralized error boundaries for API calls, storage writes and network retries.",
+      notes:"Place catch before the final then when downstream logic must still run after an error." },
+
+    { id:76, cat:"async", title:"Promise.prototype.finally()",
+      def:"Runs a callback regardless of fulfillment or rejection, making cleanup logic independent of the outcome.",
+      code:"Promise.resolve(\"ok\")\n  .then(v => console.log(\"value:\", v))\n  .catch(err => console.error(err))\n  .finally(() => console.log(\"cleanup always runs\"));\n\nconsole.log(\"request finished\");",
+      use:"Hiding spinners, releasing locks and closing loaders after a request settles.",
+      notes:"The finally callback receives no arguments and its return value is ignored." },
+
+    { id:77, cat:"async", title:"async Function Declarations",
+      def:"Declares a function that always returns a promise and allows await to be used inside its body.",
+      code:"async function loadProfile(id) {\n  if (!id) throw new Error(\"missing id\");\n  return { id: id, name: \"Ada\" };\n}\n\nloadProfile(1)\n  .then(profile => console.log(profile.name))   // \"Ada\"\n  .catch(err => console.error(err.message));",
+      use:"Readable orchestration of sequential async work with synchronous-looking control flow.",
+      notes:"async wraps the return value in Promise.resolve, and thrown errors become rejections." },
+
+    { id:78, cat:"async", title:"await Evaluation",
+      def:"Pauses the enclosing async function until the promise settles, then evaluates to its resolved value.",
+      code:"async function main() {\n  const value = await Promise.resolve(\"resolved\");\n  console.log(value);        // \"resolved\"\n\n  try {\n    await Promise.reject(new Error(\"failed\"));\n  } catch (err) {\n    console.error(err.message);   // \"failed\"\n  }\n}\n\nmain();",
+      use:"Sequential request flows where each response feeds the next step.",
+      notes:"await is only valid inside async functions or at the top level of ES modules." },
+
+    { id:79, cat:"async", title:"Promise.all()",
+      def:"Waits for every promise in an iterable to fulfill and rejects immediately if any single one fails.",
+      code:"async function fetchAll() {\n  const [users, posts] = await Promise.all([\n    Promise.resolve([{ id: 1 }]),\n    Promise.resolve([{ id: 9 }])\n  ]);\n  console.log(users.length + posts.length);   // 2\n}\n\nfetchAll();",
+      use:"Parallel dashboard loads, batched writes and multi-source aggregation.",
+      notes:"Input order is preserved even when promises resolve out of order." },
+
+    { id:80, cat:"async", title:"Promise.race()",
+      def:"Settles with the first promise to resolve or reject, ignoring all slower competing operations.",
+      code:"const fast = new Promise(res => setTimeout(() => res(\"fast\"), 100));\nconst slow = new Promise(res => setTimeout(() => res(\"slow\"), 500));\n\nPromise.race([fast, slow]).then(winner => {\n  console.log(winner);   // \"fast\" after ~100ms\n});",
+      use:"Request timeouts, caching races and picking the nearest CDN endpoint.",
+      notes:"Combine with Promise.allSettled when you need every result without short-circuiting." },
+
+    /* ---------- 09 · MODERN PRIMITIVES & DATA STRUCTURES (81-90) ---------- */
+    { id:81, cat:"modern", title:"Map Constructor Creation",
+      def:"A Map stores key-value pairs of any type with guaranteed insertion order and O(1) lookups.",
+      code:"const cache = new Map([\n  [\"key1\", 1],\n  [42, \"numeric key\"],\n  [{ id: 1 }, \"object key\"]\n]);\n\nconsole.log(cache.size);   // 3\nconsole.log([...cache]);   // entries as [key, value] pairs",
+      use:"Caching by complex keys, ordered registries and frequency counters.",
+      notes:"Unlike plain objects, Maps do not coerce keys and never collide with prototype properties." },
+
+    { id:82, cat:"modern", title:"Map.prototype.set() & get()",
+      def:"set inserts or overwrites a pair while get retrieves the value, and has reports existence.",
+      code:"const store = new Map();\nstore.set(\"user\", { id: 1 });\nstore.set(42, \"numeric key\");\n\nconsole.log(store.get(\"user\"));   // { id: 1 }\nconsole.log(store.get(7));         // undefined\nconsole.log(store.has(42));        // true\nstore.delete(42);\nconsole.log(store.size);           // 1",
+      use:"Session stores, memoization layers and mutable runtime indexes.",
+      notes:"set returns the map itself, so calls can be chained fluently." },
+
+    { id:83, cat:"modern", title:"Set Collections Instantiation",
+      def:"A Set holds unique values only, with insertion order preserved and fast membership checks.",
+      code:"const unique = new Set([1, 2, 2, 3, 3, 3]);\n\nconsole.log(unique.size);        // 3\nconsole.log([...unique]);        // [1, 2, 3]\nconsole.log(unique.has(2));      // true\nconsole.log(new Set(\"aabb\").size);   // 2",
+      use:"De-duplicating IDs, tracking visited nodes and building permission sets.",
+      notes:"Uniqueness uses SameValueZero, so NaN is considered one single element." },
+
+    { id:84, cat:"modern", title:"Set.prototype.add() Uniqueness",
+      def:"add inserts a value only when it is not already present and returns the set for chaining.",
+      code:"const tags = new Set();\n\ntags.add(\"js\").add(\"js\").add(\"css\").add(\"js\");\nconsole.log(tags.size);      // 2\nconsole.log(tags.has(\"css\"));   // true\n\nfor (const tag of tags) console.log(tag);   // js, css",
+      use:"Live tag pickers, deduplicated analytics events and membership tracking.",
+      notes:"add returns the set itself — chaining works, and duplicates are silently ignored." },
+
+    { id:85, cat:"modern", title:"WeakMap Mechanics",
+      def:"A WeakMap accepts only object keys whose references can be garbage collected along with their values.",
+      code:"const metadata = new WeakMap();\nconst node = { id: 1 };\n\nmetadata.set(node, { views: 10 });\nconsole.log(metadata.get(node).views);   // 10\nconsole.log(metadata.has(node));         // true\n// WeakMap is not iterable: no .size, no .keys()",
+      use:"Attaching private state to DOM nodes or class instances without memory leaks.",
+      notes:"Because entries are not enumerable, WeakMap cannot be used where you must list keys." },
+
+    { id:86, cat:"modern", title:"WeakSet Structures",
+      def:"A WeakSet stores unique objects and lets them disappear once no other reference exists.",
+      code:"const visited = new WeakSet();\nconst page = { url: \"/home\" };\n\nvisited.add(page);\nvisited.add(page);\nconsole.log(visited.has(page));   // true\nconsole.log(visited.size);        // undefined — not exposed",
+      use:"Marking processed objects, ghost-avoidance sets and opt-out registries.",
+      notes:"Only objects are allowed — WeakSet.add(1) throws a TypeError." },
+
+    { id:87, cat:"modern", title:"Symbol Generation",
+      def:"A Symbol creates a guaranteed-unique identifier that never appears in ordinary property enumeration.",
+      code:"const ID = Symbol(\"id\");\nconst ALT = Symbol(\"id\");\n\nconst record = { [ID]: 101, name: \"row\" };\nconsole.log(record[ID]);            // 101\nconsole.log(ID === ALT);            // false\nconsole.log(Object.keys(record));   // [\"name\"]",
+      use:"Collision-proof object keys, well-known protocol flags and hidden metadata.",
+      notes:"Symbols are skipped by JSON.stringify and for...in, which keeps them out of API payloads." },
+
+    { id:88, cat:"modern", title:"Template String Literals",
+      def:"Backtick strings interpolate expressions with dollar-brace syntax and honor embedded newlines.",
+      code:"const name = \"Ada\";\nconst count = 3;\nconst greeting = `Hello, \${name}! You have \${count * 2} new items.`;\n\nconsole.log(greeting);   // \"Hello, Ada! You have 6 new items.\"\nconsole.log(`1 + 1 = \${1 + 1}`);   // \"1 + 1 = 2\"",
+      use:"HTML fragments, log messages, URL building and localized sentence assembly.",
+      notes:"Interpolation is evaluated on every evaluation — precompute heavy expressions before the string." },
+
+    { id:89, cat:"modern", title:"Multiline String Layouts",
+      def:"Template literals span multiple lines naturally, preserving indentation without string concatenation.",
+      code:"const html = `\n  <div class=\"card\">\n    <p>Multi-line template literal</p>\n    <span>no plus signs required</span>\n  </div>\n`;\n\nconsole.log(html.trim().startsWith(\"<div\"));   // true\nconsole.log(html.split(\"\\n\").length);          // 6",
+      use:"Embedding SQL, HTML snippets, email bodies and code generation templates.",
+      notes:"Leading whitespace of every line is kept exactly — trim() when exact formatting matters." },
+
+    { id:90, cat:"modern", title:"Object Destructuring Assignments",
+      def:"Extracts properties into distinct variables with renaming, defaults and rest collection in one statement.",
+      code:"const payload = { name: \"Ada\", role: \"admin\", age: 36 };\n\nconst { name, role = \"viewer\", age: years, ...rest } = payload;\n\nconsole.log(name);    // \"Ada\"\nconsole.log(role);    // \"admin\"\nconsole.log(years);   // 36\nconsole.log(rest);    // { age: 36 } — moved by rename",
+      use:"Unwrapping API responses, function options and React component props.",
+      notes:"Destructuring reads the property but does not remove it from the source object." },
+
+    /* ---------- 10 · MODULES, METADATA & RECENT ES FEAT (91-101) ---------- */
+    { id:91, cat:"modules", title:"Export Named Modules",
+      def:"Named exports expose specific bindings from a module so importers choose exactly what they consume.",
+      code:"export const VERSION = \"1.2.0\";\n\nexport function formatPrice(value) {\n  return \"$\" + value.toFixed(2);\n}\n\nexport const TAX_RATE = 0.2;",
+      use:"Public library APIs, shared constants and tree-shakeable utility barrels.",
+      notes:"Bindings are live views — updating the exported value updates every importer." },
+
+    { id:92, cat:"modules", title:"Export Default Syntax",
+      def:"A module may expose exactly one default binding, which importers can freely alias at the import site.",
+      code:"export default function createClient(options = {}) {\n  const baseUrl = options.baseUrl || \"/api\";\n  return {\n    baseUrl: baseUrl,\n    get(path) { return fetch(baseUrl + path); }\n  };\n}",
+      use:"Primary classes, factories and the single main entry point of a module.",
+      notes:"export default takes an expression, so const values must be exported as a separate statement." },
+
+    { id:93, cat:"modules", title:"Import Named Items",
+      def:"Named imports pull specific bindings from a module, optionally renaming them to avoid collisions.",
+      code:"import { formatPrice, VERSION } from \"./cart.js\";\nimport { TAX_RATE as tax } from \"./cart.js\";\n\nconsole.log(formatPrice(19.5), VERSION);   // \"$19.50\" \"1.2.0\"\nconsole.log(tax);                          // 0.2",
+      use:"Consuming utilities, constants and components from sibling modules.",
+      notes:"Imported names are read-only — reassigning one throws a TypeError at runtime." },
+
+    { id:94, cat:"modules", title:"Import Default Module Components",
+      def:"A default import binds the module's default export, using any local identifier you choose.",
+      code:"import createClient from \"./client.js\";\nimport Client from \"./client.js\";   // same default, new alias\n\nconst api = createClient({ baseUrl: \"https://api.example.com\" });\nconsole.log(api.baseUrl);   // \"https://api.example.com\"",
+      use:"Loading the main export of a library such as React, Vue or a service class.",
+      notes:"Mix default and named imports on one line: import Client, { helper } from \"./mod.js\"." },
+
+    { id:95, cat:"modules", title:"Optional Chaining (?.)",
+      def:"Short-circuits the whole expression to undefined when an intermediate reference is null or undefined.",
+      code:"const data = {\n  user: { profile: { name: \"Ada\" } },\n  tags: null\n};\n\nconsole.log(data.user?.profile?.name);   // \"Ada\"\nconsole.log(data.missing?.deep?.value);  // undefined\nconsole.log(data.tags?.[0]);             // undefined",
+      use:"Reading nested API responses where some branches are absent or null.",
+      notes:"?. stops only on null and undefined — a false or 0 value still continues the chain." },
+
+    { id:96, cat:"modules", title:"Array Destructuring Patterns",
+      def:"Positional unpacking of arrays supports skipping elements, renaming, defaults and rest capture.",
+      code:"const colors = [\"red\", \"green\", \"blue\"];\n\nconst [first, , third] = colors;\nconst [head, ...others] = [1, 2, 3];\nconst [a = 10, b = 20] = [];\n\nconsole.log(first, third);   // \"red\" \"blue\"\nconsole.log(head, others);   // 1 [2, 3]\nconsole.log(a, b);           // 10 20",
+      use:"Swapping variables, reading tuple returns and pulling values from useResizeObserver-style arrays.",
+      notes:"Skipping is positional — holes must be exact, so a missing trailing element simply stays undefined." },
+
+    { id:97, cat:"modules", title:"Object Spread Operators",
+      def:"Spread clones and merges object properties in order, producing a new object without mutating the sources.",
+      code:"const base = { theme: \"dark\", lang: \"en\" };\nconst overrides = { lang: \"fr\" };\n\nconst merged = { ...base, ...overrides, active: true };\n\nconsole.log(merged);   // { theme: \"dark\", lang: \"fr\", active: true }\nconsole.log(base);      // unchanged",
+      use:"Immutable state updates, default option merging and shallow object copies.",
+      notes:"Only own enumerable properties are copied — getters are invoked and become plain values." },
+
+    { id:98, cat:"modules", title:"Array Rest/Spread Combinations",
+      def:"The same three-dot operator concatenates arrays when spreading and collects remainders when resting.",
+      code:"const defaults = [1, 2, 3];\nconst combined = [...defaults, 4, 5];\nconst [first, ...others] = combined;\n\nconsole.log(combined);       // [1, 2, 3, 4, 5]\nconsole.log(first, others);   // 1 [2, 3, 4, 5]\nconsole.log([...new Set([1, 1, 2])]);   // [1, 2]",
+      use:"Copying arrays, merging lists and appending without push-based mutation.",
+      notes:"Spread copies one level only — nested arrays inside are still shared references." },
+
+    { id:99, cat:"modules", title:"String.prototype.replaceAll()",
+      def:"Replaces every occurrence of a match in a string, accepting a plain substring or a global regular expression.",
+      code:"const sentence = \"one, two, one\";\n\nconsole.log(sentence.replaceAll(\"one\", \"1\"));      // \"1, two, 1\"\nconsole.log(sentence.replaceAll(/one/g, \"1\"));     // \"1, two, 1\"\nconsole.log(\"a-b-c\".replaceAll(\"-\", \"+\"));         // \"a+b+c\"",
+      use:"Sanitizing IDs, rewriting template placeholders and normalizing separators.",
+      notes:"replaceAll requires the global flag when given a RegExp, otherwise a TypeError is thrown." },
+
+    { id:100, cat:"modules", title:"BigInt Primitives",
+      def:"BigInt represents arbitrarily large integers with the n suffix, preserving precision beyond Number.MAX_SAFE_INTEGER.",
+      code:"const huge = 9007199254740993n;\nconst step = 2n;\nconst result = huge + step;\n\nconsole.log(result);            // 9007199254740995n\nconsole.log(typeof huge);       // \"bigint\"\nconsole.log(Number(huge));      // 9007199254740992 — precision lost",
+      use:"Financial ledgers, cryptographic counters and IDs where rounding is unacceptable.",
+      notes:"BigInt cannot mix with Number arithmetic — convert explicitly before combining them." },
+
+    { id:101, cat:"modules", title:"Top-Level await Control",
+      def:"ES modules allow await directly at the top level, removing the need for an async wrapper function.",
+      code:"const response = await fetch(\"/api/session\");\nconst session = await response.json();\n\nconst [profile, settings] = await Promise.all([\n  fetch(\"/api/profile\").then(r => r.json()),\n  fetch(\"/api/settings\").then(r => r.json())\n]);\n\nconsole.log(session.user, profile, settings);",
+      use:"Bootstrapping applications, initializing configs and preloading data before render.",
+      notes:"Top-level await is module-only — a classic script tag still requires an async function." }
+  ];
+
+  /* ============ helpers ============ */
+  function esc(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  var KEYWORDS = "const|let|var|function|return|if|else|switch|case|default|break|continue|for|while|do|of|in|new|class|extends|super|static|constructor|try|catch|finally|throw|async|await|yield|import|export|from|as|typeof|instanceof|delete|void|this|true|false|null|undefined|NaN|Infinity|debugger";
+  var TOKEN_RE = new RegExp(
+    "(\\/\\*[\\s\\S]*?\\*\\/|\\/\\/[^\\n]*)" +
+    "|(\"(?:\\\\.|[^\"\\\\])*\"|'(?:\\\\.|[^'\\\\])*'|`(?:\\\\.|[^`\\\\])*`)" +
+    "|\\b(" + KEYWORDS + ")\\b" +
+    "|\\b(0[xX][\\da-fA-F]+|0[bB][01]+|\\d+(?:\\.\\d+)?n?)\\b" +
+    "|([A-Za-z_$][\\w$]*)(?=\\s*\\()",
+    "g"
+  );
+
+  function highlight(src) {
+    var out = "", last = 0, m;
+    TOKEN_RE.lastIndex = 0;
+    while ((m = TOKEN_RE.exec(src)) !== null) {
+      out += esc(src.slice(last, m.index));
+      var cls = m[1] ? "c-com" : m[2] ? "c-str" : m[3] ? "c-kw" : m[4] ? "c-num" : "c-fn";
+      out += '<span class="' + cls + '">' + esc(m[0]) + "</span>";
+      last = m.index + m[0].length;
+      if (m[0].length === 0) TOKEN_RE.lastIndex++;
+    }
+    out += esc(src.slice(last));
+    return out;
+  }
+
+  function pad(n) { return String(n).padStart(3, "0"); }
+
+  var ICON_COPY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>';
+  var ICON_CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>';
+  var ICON_SLIDERS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2.2"/><circle cx="10" cy="17" r="2.2"/></svg>';
+
+  var catByKey = {};
+  CATEGORIES.forEach(function (c) { catByKey[c.key] = c; });
+
+  /* ============ render sidebar nav ============ */
+  var navEl = document.getElementById("nav");
+  var navHtml = "";
+  CATEGORIES.forEach(function (cat) {
+    navHtml += '<button class="nav-head" type="button" data-scroll="' + cat.anchor + '" data-cat="' + cat.key + '">' +
+      '<span class="nh-num">' + cat.num + "</span>" +
+      "<span>" + esc(cat.name) + "</span>" +
+      '<span class="nh-arrow" aria-hidden="true">&#9662;</span>' +
+      "</button>";
+    navHtml += '<ul class="nav-list" data-list="' + cat.key + '">';
+    DATA.filter(function (d) { return d.cat === cat.key; }).forEach(function (d) {
+      navHtml += '<li><a class="nav-item" href="#card-' + d.id + '" data-card="card-' + d.id + '" data-cat="' + d.cat + '">' +
+        '<span class="ni-num">' + pad(d.id) + "</span>" +
+        "<span>" + esc(d.title) + "</span></a></li>";
+    });
+    navHtml += "</ul>";
+  });
+  navEl.innerHTML = navHtml;
+
+  /* ============ render main sections ============ */
+  var contentEl = document.getElementById("content");
+  var mainHtml = "";
+  CATEGORIES.forEach(function (cat) {
+    var items = DATA.filter(function (d) { return d.cat === cat.key; });
+    mainHtml += '<section class="cat-section" id="' + cat.anchor + '" data-cat="' + cat.key + '" aria-labelledby="h-' + cat.key + '">' +
+      '<div class="sec-head">' +
+        '<span class="sec-num">' + cat.num + "</span>" +
+        '<h3 class="sec-title" id="h-' + cat.key + '">' + esc(cat.name) + "</h3>" +
+        '<span class="sec-line" aria-hidden="true"></span>' +
+        '<span class="sec-count">' + items.length + " cards</span>" +
+      "</div>" +
+      '<div class="grid">';
+
+    items.forEach(function (d) {
+      var search = (d.title + " " + d.def + " " + cat.name + " " + cat.short + " " + d.use + " " + d.notes + " " + d.code)
+        .toLowerCase().replace(/\s+/g, " ");
+      mainHtml += '<article class="card" id="card-' + d.id + '" data-id="' + d.id + '" data-cat="' + d.cat + '" data-search="' + esc(search) + '">' +
+        '<div class="card-top">' +
+          '<span class="badge">' + pad(d.id) + "</span>" +
+          '<span class="cat-tag">' + esc(cat.short) + "</span>" +
+        "</div>" +
+        '<h4 class="card-title">' + esc(d.title) + "</h4>" +
+        '<p class="card-def">' + esc(d.def) + "</p>" +
+        '<div class="card-actions">' +
+          '<button class="btn btn-primary" type="button" data-copy="' + d.id + '">' + ICON_COPY + '<span class="btn-label">Copy code</span></button>' +
+          '<button class="btn btn-ghost" type="button" data-details="' + d.id + '" aria-expanded="false" aria-controls="details-' + d.id + '">' + ICON_SLIDERS + '<span class="btn-label">Show details</span></button>' +
+        "</div>" +
+        '<div class="details" id="details-' + d.id + '" hidden>' +
+          "<p>" + esc(d.notes) + "</p>" +
+          "<dl>" +
+            "<dt>Card</dt><dd>" + pad(d.id) + " / 101</dd>" +
+            "<dt>Category</dt><dd>" + esc(cat.name) + "</dd>" +
+            "<dt>Standard</dt><dd>ECMAScript " + (d.cat === "modules" ? "2022+" : d.cat === "modern" ? "ES2015+" : "ES5/ES6") + "</dd>" +
+          "</dl>" +
+        "</div>" +
+        '<pre class="code"><code>' + highlight(d.code) + "</code></pre>" +
+        '<p class="usecase"><b>Use case</b><span>' + esc(d.use) + "</span></p>" +
+      "</article>";
+    });
+
+    mainHtml += "</div></section>";
+  });
+  contentEl.innerHTML = mainHtml;
+
+  /* ============ filtering ============ */
+  var filterInput = document.getElementById("filter");
+  var matchCount = document.getElementById("matchCount");
+  var emptyEl = document.getElementById("empty");
+  var cards = Array.prototype.slice.call(contentEl.querySelectorAll(".card"));
+  var sections = Array.prototype.slice.call(contentEl.querySelectorAll(".cat-section"));
+  var navItems = Array.prototype.slice.call(navEl.querySelectorAll(".nav-item"));
+  var navHeads = Array.prototype.slice.call(navEl.querySelectorAll(".nav-head"));
+  var navLists = Array.prototype.slice.call(navEl.querySelectorAll(".nav-list"));
+
+  function applyFilter() {
+    var q = filterInput.value.trim().toLowerCase();
+    var visible = 0;
+    var perCat = {};
+
+    cards.forEach(function (card) {
+      var match = !q || card.getAttribute("data-search").indexOf(q) !== -1;
+      card.hidden = !match;
+      if (match) {
+        visible++;
+        var c = card.getAttribute("data-cat");
+        perCat[c] = (perCat[c] || 0) + 1;
+      }
+    });
+
+    sections.forEach(function (sec) {
+      sec.hidden = !perCat[sec.getAttribute("data-cat")];
+    });
+
+    navItems.forEach(function (a) {
+      var card = document.getElementById(a.getAttribute("data-card"));
+      if (card) a.hidden = card.hidden;
+    });
+
+    navLists.forEach(function (ul) {
+      var key = ul.getAttribute("data-list");
+      var any = (perCat[key] || 0) > 0;
+      ul.hidden = !any;
+      var head = navHeads.filter(function (h) { return h.getAttribute("data-cat") === key; })[0];
+      if (head) head.hidden = !any;
+    });
+
+    matchCount.textContent = visible;
+    emptyEl.hidden = visible !== 0;
+  }
+
+  filterInput.addEventListener("input", applyFilter);
+  filterInput.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") { filterInput.value = ""; applyFilter(); }
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "/" && document.activeElement !== filterInput) {
+      e.preventDefault();
+      filterInput.focus();
+      filterInput.select();
+    }
+  });
+
+  /* ============ clipboard + details ============ */
+  function legacyCopy(text) {
+    return new Promise(function (resolve, reject) {
+      try {
+        var ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.top = "-1000px";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        var ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+        ok ? resolve() : reject(new Error("copy failed"));
+      } catch (err) { reject(err); }
+    });
+  }
+
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).catch(function () { return legacyCopy(text); });
+    }
+    return legacyCopy(text);
+  }
+
+  var copyTimers = {};
+  contentEl.addEventListener("click", function (e) {
+    var copyBtn = e.target.closest("[data-copy]");
+    if (copyBtn) {
+      var id = copyBtn.getAttribute("data-copy");
+      var entry = DATA.filter(function (d) { return d.id === Number(id); })[0];
+      if (!entry) return;
+      copyText(entry.code).then(function () {
+        var label = copyBtn.querySelector(".btn-label");
+        var icon = copyBtn.querySelector("svg");
+        copyBtn.classList.add("is-copied");
+        if (label) label.textContent = "Copied!";
+        if (icon) icon.outerHTML = ICON_CHECK;
+        clearTimeout(copyTimers[id]);
+        copyTimers[id] = setTimeout(function () {
+          copyBtn.classList.remove("is-copied");
+          var l = copyBtn.querySelector(".btn-label");
+          var i = copyBtn.querySelector("svg");
+          if (l) l.textContent = "Copy code";
+          if (i) i.outerHTML = ICON_COPY;
+        }, 1600);
+      }).catch(function () {
+        var label = copyBtn.querySelector(".btn-label");
+        if (label) label.textContent = "Press Ctrl+C";
+        clearTimeout(copyTimers[id]);
+        copyTimers[id] = setTimeout(function () {
+          var l = copyBtn.querySelector(".btn-label");
+          if (l) l.textContent = "Copy code";
+        }, 2200);
+      });
+      return;
+    }
+
+    var detBtn = e.target.closest("[data-details]");
+    if (detBtn) {
+      var did = detBtn.getAttribute("data-details");
+      var panel = document.getElementById("details-" + did);
+      if (!panel) return;
+      var open = detBtn.getAttribute("aria-expanded") === "true";
+      detBtn.setAttribute("aria-expanded", String(!open));
+      panel.hidden = open;
+      detBtn.querySelector(".btn-label").textContent = open ? "Show details" : "Hide details";
+    }
+  });
+
+  /* ============ navigation / scroll ============ */
+  function scrollToEl(el) {
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    history.replaceState(null, "", "#" + el.id);
+  }
+
+  navEl.addEventListener("click", function (e) {
+    var head = e.target.closest("[data-scroll]");
+    if (head) { scrollToEl(document.getElementById(head.getAttribute("data-scroll"))); return; }
+    var link = e.target.closest("a[data-card]");
+    if (link) {
+      e.preventDefault();
+      scrollToEl(document.getElementById(link.getAttribute("data-card")));
+      if (window.matchMedia("(max-width: 980px)").matches) closeSidebar();
+    }
+  });
+
+  var sidebar = document.getElementById("sidebar");
+  var scrim = document.getElementById("scrim");
+  var menuBtn = document.getElementById("menuBtn");
+
+  function openSidebar() {
+    sidebar.classList.add("open");
+    scrim.hidden = false;
+    scrim.classList.add("open");
+    menuBtn.setAttribute("aria-expanded", "true");
+  }
+  function closeSidebar() {
+    sidebar.classList.remove("open");
+    scrim.classList.remove("open");
+    scrim.hidden = true;
+    menuBtn.setAttribute("aria-expanded", "false");
+  }
+  menuBtn.addEventListener("click", function () {
+    sidebar.classList.contains("open") ? closeSidebar() : openSidebar();
+  });
+  scrim.addEventListener("click", closeSidebar);
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && sidebar.classList.contains("open")) closeSidebar();
+  });
+
+  /* active section highlight */
+  if ("IntersectionObserver" in window) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var key = entry.target.getAttribute("data-cat");
+        navHeads.forEach(function (h) {
+          h.classList.toggle("active", h.getAttribute("data-cat") === key);
+        });
+      });
+    }, { rootMargin: "-15% 0px -70% 0px", threshold: 0 });
+    sections.forEach(function (s) { observer.observe(s); });
+  }
+
+  applyFilter();
+})();
+</script>
+</body>
+</html>
